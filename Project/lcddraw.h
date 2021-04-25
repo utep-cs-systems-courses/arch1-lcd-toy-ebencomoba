@@ -50,6 +50,8 @@ void drawString11x16(u_char col, u_char row, char *string,
 void drawChar11x16(u_char col, u_char row, char c, 
 		 u_int fgColorBGR, u_int bgColorBGR);
 
+void drawHexagon(u_char offset_c, u_char offset_r, u_char length, u_int fgColorBGR);
+
 /** Draw rectangle outline
  *  
  *  \param colMin Column start

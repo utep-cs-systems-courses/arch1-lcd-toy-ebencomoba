@@ -95,6 +95,18 @@ void drawString11x16(u_char col, u_char row, char *string,
   }
 }
 
+void drawHexagon(u_char offset_c, u_char offset_r, u_char length, u_int fgColorBGR)
+{
+  for (int row = 0; row < (length * 433/500); row++) {
+    for (int col = 0; col < (length - (row*250/433)); col++) {
+      drawPixel(offset_c + col, offset_r + row, fgColorBGR);
+      drawPixel(offset_c + col, offset_r - row, fgColorBGR);
+      drawPixel(offset_c - col, offset_r + row, fgColorBGR);
+      drawPixel(offset_c - col, offset_r - row, fgColorBGR);
+    }
+  }
+}
+
 
 /** Draw rectangle outline
  *  
