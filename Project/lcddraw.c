@@ -52,8 +52,8 @@ void clearScreen(u_int colorBGR)
 /** 5x7 font - this function draws background pixels
  *  Adapted from RobG's EduKit
  */
-void drawChar11x16(u_char rcol, u_char rrow, char c, 
-     u_int fgColorBGR, u_int bgColorBGR) 
+void drawChar11x16(u_char rcol, u_char rrow, char c,
+		   u_int fgColorBGR, u_int bgColorBGR) 
 {
   u_char col = 0;
   u_char row = 0;
@@ -86,7 +86,7 @@ void drawChar11x16(u_char rcol, u_char rrow, char c,
  *  \param bgColorBGR Background color in BGR
  */
 void drawString11x16(u_char col, u_char row, char *string,
-		u_int fgColorBGR, u_int bgColorBGR)
+		     u_int fgColorBGR, u_int bgColorBGR)
 {
   u_char cols = col;
   while (*string) {
@@ -128,3 +128,50 @@ void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height,
   fillRectangle(colMin + width, rowMin, 1, height, colorBGR);
 }
 
+void drawSpaceShip (u_char rcol)
+{
+  u_char col = 0;
+  u_char row = 0;
+  u_int bit = 0x80;
+
+  lcd_setArea(rcol, 90, rcol + 8, 97); /* relative to requested col/row */
+  while (row < 7) {
+    while (col < 9) {
+      u_int colorBGR = (ships[0][col] & bit) ? COLOR_WHITE : COLOR_BLACK;
+      lcd_writeColor(colorBGR);
+      col++;
+    }
+    col = 0;
+    row++;
+    bit >>= 1;
+  }
+}
+
+void drawScope (u_char col)
+{
+  for (int count = 1; count < 4; count++) {
+    drawPixel(col, 18 + count, COLOR_YELLOW);
+    drawPixel(col, 18 - count, COLOR_YELLOW);
+    drawPixel(col + count, 18, COLOR_YELLOW);
+    drawPixel(col - count, 18, COLOR_YELLOW);
+  }
+}
+
+void drawPrey (u_char rcol, u_char rrow, u_char state)
+{
+  u_char col = 0;
+  u_char row = 0;
+  u_int bit = 0x80;
+
+  lcd_setArea(rcol, rrow, rcol + 8, rrow + 7);
+  while (row < 7) {
+    while (col < 9) {
+      u_int colorBGR = (ships[state+1][col] & bit) ? COLOR_CYAN : COLOR_BLACK;
+      lcd_writeColor(colorBGR);
+      col++;
+    }
+    col = 0;
+    row++;
+    bit >>= 1;
+  }
+}

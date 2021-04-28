@@ -41,14 +41,14 @@ void clearScreen(u_int colorBGR);
  *  \param fgColorBGR Foreground color in BGR
  *  \param bgColorBGR Background color in BGR
  */
-void drawString11x16(u_char col, u_char row, char *string, 
-		   u_int fgColorBGR, u_int bgColorBGR);
+void drawString11x16(u_char col, u_char row, char *string,
+		     u_int fgColorBGR, u_int bgColorBGR);
 
 /** 5x7 font - this function draws background pixels
  *  Adapted from RobG's EduKit
  */
-void drawChar11x16(u_char col, u_char row, char c, 
-		 u_int fgColorBGR, u_int bgColorBGR);
+void drawChar11x16(u_char col, u_char row, char c,
+		   u_int fgColorBGR, u_int bgColorBGR);
 
 void drawHexagon(u_char offset_c, u_char offset_r, u_char length, u_int fgColorBGR);
 
@@ -62,6 +62,13 @@ void drawHexagon(u_char offset_c, u_char offset_r, u_char length, u_int fgColorB
  */
 void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height,
 		     u_int colorBGR);
+
+void drawSpaceShip(u_char rcol);
+
+void drawScope(u_char col);
+
+void drawPrey(u_char col, u_char row, u_char state);
+
 #endif // included
 
 
