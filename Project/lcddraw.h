@@ -63,9 +63,9 @@ void drawHexagon(u_char offset_c, u_char offset_r, u_char length, u_int fgColorB
 void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height,
 		     u_int colorBGR);
 
-void drawSpaceShip(u_char rcol);
+void drawSpaceShip(u_char rcol, u_int fgcolorBGR);
 
-void drawScope(u_char col);
+void drawScope(u_char col, u_int fgcolorBGR);
 
 void drawPrey(u_char col, u_char row, u_char state);
 

@@ -128,7 +128,7 @@ void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height,
   fillRectangle(colMin + width, rowMin, 1, height, colorBGR);
 }
 
-void drawSpaceShip (u_char rcol)
+void drawSpaceShip (u_char rcol, u_int fgcolorBGR)
 {
   u_char col = 0;
   u_char row = 0;
@@ -137,7 +137,7 @@ void drawSpaceShip (u_char rcol)
   lcd_setArea(rcol, 90, rcol + 8, 97); /* relative to requested col/row */
   while (row < 7) {
     while (col < 9) {
-      u_int colorBGR = (ships[0][col] & bit) ? COLOR_WHITE : COLOR_BLACK;
+      u_int colorBGR = (ships[0][col] & bit) ? fgcolorBGR : COLOR_BLACK;
       lcd_writeColor(colorBGR);
       col++;
     }
@@ -147,13 +147,13 @@ void drawSpaceShip (u_char rcol)
   }
 }
 
-void drawScope (u_char col)
+void drawScope (u_char col, u_int fgcolorBGR)
 {
   for (int count = 1; count < 4; count++) {
-    drawPixel(col, 18 + count, COLOR_YELLOW);
-    drawPixel(col, 18 - count, COLOR_YELLOW);
-    drawPixel(col + count, 18, COLOR_YELLOW);
-    drawPixel(col - count, 18, COLOR_YELLOW);
+    drawPixel(col, 18 + count, fgcolorBGR);
+    drawPixel(col, 18 - count, fgcolorBGR);
+    drawPixel(col + count, 18, fgcolorBGR);
+    drawPixel(col - count, 18, fgcolorBGR);
   }
 }
 
