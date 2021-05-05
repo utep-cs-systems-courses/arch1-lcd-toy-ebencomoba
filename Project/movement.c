@@ -2,9 +2,9 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 
-signed char prey_col_velocity = 1;
+signed char prey_col_velocity = 2;
 short prey_col = 50;
-short ship_col = 20;
+short ship_col = 50;
 signed char prey_row = -10;
 short next_prey_col = 50;
 
@@ -28,8 +28,10 @@ short selectPrey(short prey_state)
   case 2:
     return 0;
   case 3:
-    return 1;
   case 4:
+    return 1;
+  case 5:
+  case 6:
     return 2;
   default:
     return 3;
@@ -52,27 +54,39 @@ short updatePreyRow(short prey_state)
 {
   switch(prey_state) {
   case 0:
-    drawPrey(prey_col, prey_row, 0, COLOR_BLACK);
-    drawPrey(prey_col, ++prey_row, 0, COLOR_GREEN);
+    drawPrey(next_prey_col, prey_row, 0, COLOR_BLACK);
+    drawPrey(next_prey_col, ++prey_row, 0, COLOR_GREEN);
     return (prey_row <= 17) ? 0 : 1;
   case 2:
-    drawPrey(prey_col, prey_row, 0, COLOR_BLACK);
-    drawPrey(prey_col, ++prey_row, 0, COLOR_GREEN);
+    drawPrey(next_prey_col, prey_row, 0, COLOR_BLACK);
+    drawPrey(next_prey_col, ++prey_row, 0, COLOR_GREEN);
     return (prey_row <= 40) ? 2 : 3;
   case 3:
-    drawPrey(prey_col, prey_row, 1, COLOR_BLACK);
-    drawPrey(prey_col, ++prey_row, 1, COLOR_GREEN);
+    drawPrey(next_prey_col, prey_row, 1, COLOR_BLACK);
+    drawPrey(next_prey_col, ++prey_row, 1, COLOR_GREEN);
     return 4;
   case 4:
-    drawPrey(prey_col, prey_row, 2, COLOR_BLACK);
-    drawPrey(prey_col, ++prey_row, 2, COLOR_GREEN);
+    drawPrey(next_prey_col, prey_row, 1, COLOR_BLACK);
+    drawPrey(next_prey_col, ++prey_row, 1, COLOR_GREEN);
     return 5;
   case 5:
-    drawPrey(prey_col, prey_row, 3, COLOR_BLACK);
-    drawPrey(prey_col, ++prey_row, 3, COLOR_GREEN);
+    drawPrey(next_prey_col, prey_row, 1, COLOR_BLACK);
+    drawPrey(next_prey_col, ++prey_row, 1, COLOR_GREEN);
     return 6;
   case 6:
-    drawPrey(prey_col, prey_row, 3, COLOR_BLACK);
+    drawPrey(next_prey_col, prey_row, 2, COLOR_BLACK);
+    drawPrey(next_prey_col, ++prey_row, 2, COLOR_GREEN);
+    return 7;
+  case 7:
+    drawPrey(next_prey_col, prey_row, 1, COLOR_BLACK);
+    drawPrey(next_prey_col, ++prey_row, 1, COLOR_GREEN);
+    return 8;
+  case 8:
+    drawPrey(next_prey_col, prey_row, 3, COLOR_BLACK);
+    drawPrey(next_prey_col, ++prey_row, 3, COLOR_GREEN);
+    return 9;
+  case 9:
+    drawPrey(next_prey_col, prey_row, 3, COLOR_BLACK);
     prey_row = -10;
     return 0;
   }
@@ -84,7 +98,7 @@ void moveShipR()
   if (ship_col < 110) {
     drawSpaceShip(ship_col, COLOR_BLACK);
     drawScope(ship_col, COLOR_BLACK);
-    ship_col+=2;
+    ship_col+=3;
     drawSpaceShip(ship_col, COLOR_RED);
     drawScope(ship_col, COLOR_WHITE);
   }
@@ -95,8 +109,20 @@ void moveShipL()
   if (ship_col > 10) {
     drawSpaceShip(ship_col, COLOR_BLACK);
     drawScope(ship_col, COLOR_BLACK);
-    ship_col-=2;
+    ship_col-=3;
     drawSpaceShip(ship_col, COLOR_RED);
     drawScope(ship_col, COLOR_WHITE);
   }
+}
+
+void keepScope()
+{
+  drawScope(ship_col, COLOR_WHITE);
+}
+
+short shoot(short prey_state)
+{
+  short range = (ship_col+4) >= next_prey_col;
+  range &= (ship_col+4) <= (next_prey_col+9);
+  return ((prey_state == 1) && range) ? 2 : prey_state;
 }

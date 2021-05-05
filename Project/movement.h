@@ -7,5 +7,7 @@ void updatePreyCol(short prey_state);
 short updatePreyRow(short prey_state);
 void moveShipR();
 void moveShipL();
+void keepScope();
+short shoot(short prey_state);
 
 #endif

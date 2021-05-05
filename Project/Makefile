@@ -24,7 +24,7 @@ clean:
 	rm -f libLcd.a *.o *.elf 
 
 main.elf: $(COMMON_OBJECTS) main.o libLcd.a wdt_handler.o 
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer -lLcd 
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer -lp2sw  -lLcd 
 
 load: main.elf
 	msp430loader.sh $^
