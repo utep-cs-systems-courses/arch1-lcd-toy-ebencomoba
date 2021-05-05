@@ -134,7 +134,7 @@ void drawSpaceShip (u_char rcol, u_int fgcolorBGR)
   u_char row = 0;
   u_int bit = 0x80;
 
-  lcd_setArea(rcol, 90, rcol + 8, 97); /* relative to requested col/row */
+  lcd_setArea(rcol, 130, rcol + 8, 137); /* relative to requested col/row */
   while (row < 7) {
     while (col < 9) {
       u_int colorBGR = (ships[0][col] & bit) ? fgcolorBGR : COLOR_BLACK;
@@ -150,14 +150,14 @@ void drawSpaceShip (u_char rcol, u_int fgcolorBGR)
 void drawScope (u_char col, u_int fgcolorBGR)
 {
   for (int count = 1; count < 4; count++) {
-    drawPixel(col, 18 + count, fgcolorBGR);
-    drawPixel(col, 18 - count, fgcolorBGR);
-    drawPixel(col + count, 18, fgcolorBGR);
-    drawPixel(col - count, 18, fgcolorBGR);
+    drawPixel(col+4, 20 + count, fgcolorBGR);
+    drawPixel(col+4, 20 - count, fgcolorBGR);
+    drawPixel(col+4 + count, 20, fgcolorBGR);
+    drawPixel(col+4 - count, 20, fgcolorBGR);
   }
 }
 
-void drawPrey (u_char rcol, u_char rrow, u_char state)
+void drawPrey (u_char rcol, u_char rrow, u_char state, u_int fgColorBGR)
 {
   u_char col = 0;
   u_char row = 0;
@@ -166,7 +166,7 @@ void drawPrey (u_char rcol, u_char rrow, u_char state)
   lcd_setArea(rcol, rrow, rcol + 8, rrow + 7);
   while (row < 7) {
     while (col < 9) {
-      u_int colorBGR = (ships[state+1][col] & bit) ? COLOR_CYAN : COLOR_BLACK;
+      u_int colorBGR = (ships[state+1][col] & bit) ? fgColorBGR : COLOR_BLACK;
       lcd_writeColor(colorBGR);
       col++;
     }

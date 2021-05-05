@@ -67,7 +67,7 @@ void drawSpaceShip(u_char rcol, u_int fgcolorBGR);
 
 void drawScope(u_char col, u_int fgcolorBGR);
 
-void drawPrey(u_char col, u_char row, u_char state);
+void drawPrey(u_char col, u_char row, u_char state, u_int fgColorBGR);
 
 #endif // included
 

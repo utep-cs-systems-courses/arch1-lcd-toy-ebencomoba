@@ -8,11 +8,12 @@ CC              = msp430-elf-gcc
 AS              = msp430-elf-gcc -mmcu=${CPU} -c
 AR              = msp430-elf-ar
 
-libLcd.a: font-11x16.o spaceships.o lcdutils.o lcddraw.o
+libLcd.a: font-11x16.o spaceships.o lcdutils.o lcddraw.o movement.o
 	$(AR) crs $@ $^
 
 lcddraw.o: lcddraw.c lcddraw.h lcdutils.h
 lcdutils.o: lcdutils.c lcdutils.h
+movement.o: movement.h lcddraw.h lcdutils.h
 
 install: libLcd.a
 	mkdir -p ../h ../lib
