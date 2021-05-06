@@ -8,12 +8,13 @@ CC              = msp430-elf-gcc
 AS              = msp430-elf-gcc -mmcu=${CPU} -c
 AR              = msp430-elf-ar
 
-libLcd.a: font-11x16.o spaceships.o lcdutils.o lcddraw.o movement.o
+libLcd.a: font-11x16.o spaceships.o lcdutils.o lcddraw.o
 	$(AR) crs $@ $^
 
 lcddraw.o: lcddraw.c lcddraw.h lcdutils.h
 lcdutils.o: lcdutils.c lcdutils.h
 movement.o: movement.h lcddraw.h lcdutils.h
+buzzer.o: buzzer.h
 
 install: libLcd.a
 	mkdir -p ../h ../lib
@@ -23,7 +24,7 @@ install: libLcd.a
 clean:
 	rm -f libLcd.a *.o *.elf 
 
-main.elf: $(COMMON_OBJECTS) main.o libLcd.a wdt_handler.o 
+main.elf: $(COMMON_OBJECTS) main.o libLcd.a wdt_handler.o movement.o buzzer.o
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer -lp2sw  -lLcd 
 
 load: main.elf

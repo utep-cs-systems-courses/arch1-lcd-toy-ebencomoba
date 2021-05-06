@@ -4,6 +4,7 @@
 #include "lcddraw.h"
 #include "movement.h"
 #include "p2switches.h"
+#include "buzzer.h"
 
 short move_prey = 0;
 short move_ship = 0;
@@ -41,6 +42,7 @@ void main()
 {
   configureClocks();
   lcd_init();
+  buzzer_init();
   enableWDTInterrupts();
   p2sw_init(15);
   or_sr(0x8);
@@ -70,8 +72,12 @@ void main()
 	  moveShipR();
 	else
 	  keepScope();
-	if (~switches & 8)
+	if (~switches & 8) {
+	  buzzer_set_period(5000);
 	  prey_state = shoot(prey_state);
+	}
+	else
+	  buzzer_set_period(0);
       }
       
       if (move_prey) {
