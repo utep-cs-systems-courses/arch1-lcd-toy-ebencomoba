@@ -133,10 +133,10 @@ void drawSpaceShip (u_char rcol, u_int fgcolorBGR)
 void drawScope (u_char col, u_int fgcolorBGR)
 {
   for (int count = 1; count < 4; count++) {
-    drawPixel(col+4, 20 + count, fgcolorBGR);
-    drawPixel(col+4, 20 - count, fgcolorBGR);
-    drawPixel(col+4 + count, 20, fgcolorBGR);
-    drawPixel(col+4 - count, 20, fgcolorBGR);
+    drawPixel(col, 20 + count, fgcolorBGR);
+    drawPixel(col, 20 - count, fgcolorBGR);
+    drawPixel(col + count, 20, fgcolorBGR);
+    drawPixel(col - count, 20, fgcolorBGR);
   }
 }
 

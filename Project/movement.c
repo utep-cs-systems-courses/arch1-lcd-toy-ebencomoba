@@ -1,6 +1,7 @@
 #include "movement.h"
 #include "lcdutils.h"
 #include "lcddraw.h"
+#include "assembly.h"
 
 signed char prey_col_velocity = 2;
 short prey_col = 50;
@@ -21,26 +22,6 @@ void updateHexagon()
   }
   drawHexagon(15, 77, hex_length, COLOR_CYAN);
   drawHexagon(110, 77, hex_length, COLOR_CYAN);
-}
-
-/* Based on the state of the prey, this function determines
-   which prey ship should be selected to be drawn */
-short selectPrey(short prey_state)
-{
-  switch (prey_state) {
-  case 0:
-  case 1:
-  case 2:
-    return 0;
-  case 3:
-  case 4:
-    return 1;
-  case 5:
-  case 6:
-    return 2;
-  default:
-    return 3;
-  }
 }
 
 /* We move the prey horizontally. If we are in one of the limits, we change of
@@ -110,10 +91,10 @@ void moveShipR()
 {
   if (ship_col < 110) {
     drawSpaceShip(ship_col, COLOR_BLACK);
-    drawScope(ship_col, COLOR_BLACK);
-    ship_col+=3;
+    drawScope(ship_col+4, COLOR_BLACK);   // There is a displacement to align ship_col
+    ship_col+=3;                          // with the center of the scope
     drawSpaceShip(ship_col, COLOR_RED);
-    drawScope(ship_col, COLOR_WHITE);
+    drawScope(ship_col+4, COLOR_WHITE);
   }
 }
 
@@ -122,17 +103,11 @@ void moveShipL()
 {
   if (ship_col > 10) {
     drawSpaceShip(ship_col, COLOR_BLACK);
-    drawScope(ship_col, COLOR_BLACK);
+    drawScope(ship_col+4, COLOR_BLACK);
     ship_col-=3;
     drawSpaceShip(ship_col, COLOR_RED);
-    drawScope(ship_col, COLOR_WHITE);
+    drawScope(ship_col+4, COLOR_WHITE);
   }
-}
-
-/* We draw again the scope so that it is not erased by the movement of the prey */
-void keepScope()
-{
-  drawScope(ship_col, COLOR_WHITE);
 }
 
 /* When shooting, this function changes to state 2, only if it is in state 1

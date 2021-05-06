@@ -5,6 +5,7 @@
 #include "movement.h"
 #include "switches.h"
 #include "buzzer.h"
+#include "assembly.h"
 
 #define LED_RED BIT6
 
