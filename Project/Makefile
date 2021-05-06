@@ -15,6 +15,7 @@ lcddraw.o: lcddraw.c lcddraw.h lcdutils.h
 lcdutils.o: lcdutils.c lcdutils.h
 movement.o: movement.h lcddraw.h lcdutils.h
 buzzer.o: buzzer.h
+switches.o: switches.h
 
 install: libLcd.a
 	mkdir -p ../h ../lib
@@ -24,7 +25,7 @@ install: libLcd.a
 clean:
 	rm -f libLcd.a *.o *.elf 
 
-main.elf: $(COMMON_OBJECTS) main.o libLcd.a wdt_handler.o movement.o buzzer.o
+main.elf: $(COMMON_OBJECTS) main.o libLcd.a wdt_handler.o movement.o buzzer.o switches.o
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer -lp2sw  -lLcd 
 
 load: main.elf

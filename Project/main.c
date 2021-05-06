@@ -3,8 +3,10 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 #include "movement.h"
-#include "p2switches.h"
+#include "switches.h"
 #include "buzzer.h"
+
+#define LED_RED BIT6
 
 short move_prey = 0;
 short move_ship = 0;
@@ -40,11 +42,13 @@ void wdt_c_handler()
 /** Initializes everything, clears the screen, draws "hello" and a square */
 void main()
 {
+  P1DIR |= LED_RED;  /**< Red led on when CPU on */
+  P1OUT |= LED_RED;
   configureClocks();
   lcd_init();
   buzzer_init();
   enableWDTInterrupts();
-  p2sw_init(15);
+  switch_init();
   or_sr(0x8);
   
   u_char width = screenWidth, height = screenHeight;
@@ -56,28 +60,32 @@ void main()
   while (1) {
     if (redrawScreen) {
       redrawScreen = 0;
-      
       if (redraw_hexagon) {
 	redraw_hexagon = 0;
 	updateHexagon();
       }
 
-      
       if (move_ship) {
-	u_int switches = p2sw_read();
         move_ship = 0;
-	if (~switches & 1)
+	if (switch0_down) {
 	  moveShipL();
-	else if (~switches & 4)
+	}
+	else if (switch2_down) {
 	  moveShipR();
-	else
+	}
+	else {
 	  keepScope();
-	if (~switches & 8) {
+	}
+	
+	if (switch3_down) {
+	  P1OUT |= LED_RED;  /* red on */
 	  buzzer_set_period(5000);
 	  prey_state = shoot(prey_state);
 	}
-	else
+	else {
 	  buzzer_set_period(0);
+	  P1OUT &= ~LED_RED;   /* red off */
+	}
       }
       
       if (move_prey) {
