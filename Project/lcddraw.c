@@ -49,9 +49,7 @@ void clearScreen(u_int colorBGR)
   fillRectangle(0, 0, screenWidth, screenHeight, colorBGR);
 }
 
-/** 5x7 font - this function draws background pixels
- *  Adapted from RobG's EduKit
- */
+/** 11x16 font - this function draws a character */
 void drawChar11x16(u_char rcol, u_char rrow, char c,
 		   u_int fgColorBGR, u_int bgColorBGR) 
 {
@@ -75,7 +73,7 @@ void drawChar11x16(u_char rcol, u_char rrow, char c,
 
 /** Draw string at col,row
  *  Type:
- *  FONT_SM - small (5x8,) FONT_MD - medium (8x12,) FONT_LG - large (11x16)
+ *  FONT_LG - large (11x16)
  *  FONT_SM_BKG, FONT_MD_BKG, FONT_LG_BKG - as above, but with background color
  *  Adapted from RobG's EduKit
  *
@@ -87,7 +85,7 @@ void drawChar11x16(u_char rcol, u_char rrow, char c,
  */
 void drawString11x16(u_char col, u_char row, char *string,
 		     u_int fgColorBGR, u_int bgColorBGR)
-{
+{ /* We draw each character leaving a column between characters */
   u_char cols = col;
   while (*string) {
     drawChar11x16(cols, row, *string++, fgColorBGR, bgColorBGR);
@@ -95,6 +93,9 @@ void drawString11x16(u_char col, u_char row, char *string,
   }
 }
 
+/* Function draws an hexagon whose origin is (offset_c, offset_r)
+ * The length of the hxagon is defined as the number of
+ * pixels on the bottom side of the hexagon */
 void drawHexagon(u_char offset_c, u_char offset_r, u_char length, u_int fgColorBGR)
 {
   for (int row = 0; row < (length * 433/500); row++) {
@@ -107,27 +108,8 @@ void drawHexagon(u_char offset_c, u_char offset_r, u_char length, u_int fgColorB
   }
 }
 
-
-/** Draw rectangle outline
- *  
- *  \param colMin Column start
- *  \param rowMin Row start 
- *  \param width Width of rectangle
- *  \param height Height of rectangle
- *  \param colorBGR Color of rectangle in BGR
- */
-void drawRectOutline(u_char colMin, u_char rowMin, u_char width, u_char height,
-		     u_int colorBGR)
-{
-  /**< top & bot */
-  fillRectangle(colMin, rowMin, width, 1, colorBGR);
-  fillRectangle(colMin, rowMin + height, width, 1, colorBGR);
-
-  /**< left & right */
-  fillRectangle(colMin, rowMin, 1, height, colorBGR);
-  fillRectangle(colMin + width, rowMin, 1, height, colorBGR);
-}
-
+/* Similarly to drawing a character, we draw the figure that
+ * represents the spaceship based on a bitmap */
 void drawSpaceShip (u_char rcol, u_int fgcolorBGR)
 {
   u_char col = 0;
@@ -147,6 +129,7 @@ void drawSpaceShip (u_char rcol, u_int fgcolorBGR)
   }
 }
 
+/* We draw four straight lines to simulate a scope */
 void drawScope (u_char col, u_int fgcolorBGR)
 {
   for (int count = 1; count < 4; count++) {
@@ -157,6 +140,9 @@ void drawScope (u_char col, u_int fgcolorBGR)
   }
 }
 
+/* We use a bitmap to draw the figure of our prey.
+ * This figure has different states, so the parameter state decides
+ * which is the one we are drawing */
 void drawPrey (u_char rcol, u_char rrow, u_char state, u_int fgColorBGR)
 {
   u_char col = 0;
